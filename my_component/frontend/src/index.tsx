@@ -58,8 +58,13 @@ button.onblur = function(): void {
 function speak_text(text_to_say: string, pass: string){
     var speechConfig = SpeechSDK.SpeechConfig.fromSubscription(pass, 'eastus');
   speechConfig.speechSynthesisLanguage = "ga-IE";
+  const player = new SpeechSDK.SpeakerAudioDestination();
+  const audioConfig = SpeechSDK.AudioConfig.fromSpeakerOutput(player)
+
   var synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig,
-    SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+    // SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+    audioConfig);
+
   synthesizer.speakTextAsync(text_to_say)
 }
 
@@ -101,19 +106,10 @@ function onRender(event: Event):void {
   // Show "Hello, name!" with a non-breaking space afterwards.
   // textNode.textContent = `Hello, ${name}! ` + String.fromCharCode(160)
 
-  speak_text(text_to_say, pass)
-// function speak_text(text_to_say, pass){
-//     var speechConfig = SpeechSDK.SpeechConfig.fromSubscription(pass, 'eastus');
-//   speechConfig.speechRecognitionLanguage = "ga-IE";
-//   var synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig,
-//     SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
-//   synthesizer.speakTextAsync(text_to_say)
-// }
+ if (data.args["speak_aloud"]){
+  speak_text(text_to_say, pass);
+}
 
-  // We tell Streamlit to update our frameHeight after each render event, in
-  // case it has changed. (This isn't strictly necessary for the example
-  // because our height stays fixed, but this is a low-cost function, so
-  // there's no harm in doing it redundantly.)
   Streamlit.setFrameHeight()
 }
 // Attach our `onRender` handler to Streamlit's render event.

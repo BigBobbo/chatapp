@@ -1,6 +1,8 @@
 import os
 import streamlit.components.v1 as components
 from my_component import my_component
+# from speak_component import speak_component
+
 
 import streamlit as st
 from streamlit_chat import message
@@ -97,7 +99,7 @@ st.header("Gailge MVP")
 placeholder = st.empty()
 user_input = False
 text_to_say = st.session_state["generated"][-1]
-user_input = my_component("World", subscription, text_to_say, key="stay")
+user_input = my_component("World", subscription, '', key="listen")
 print(st.session_state["generated"])
 # print(user_input)
 if user_input['privText'] != '':
@@ -114,6 +116,8 @@ if user_input['privText'] != '':
     prompt = prompt.strip() + response_text + '\nTusa:'
     st.session_state['prompt'] = prompt
     print(st.session_state["generated"])
+
+_ = my_component("World", subscription, text_to_say, hide_button=True, key="speak")
 
 
 

@@ -76,27 +76,30 @@ function onRender(event: Event):void {
 
   // Maintain compatibility with older versions of Streamlit that don't send
   // a theme object.
-  if (data.theme) {
-    // Use CSS vars to style our button border. Alternatively, the theme style
-    // is defined in the data.theme object.
-    const borderStyling = `1px solid var(${
-      isFocused ? "--primary-color" : "gray"
-    })`
-    button.style.border = borderStyling
-    button.style.outline = borderStyling
-  }
+  // if (data.theme) {
+  //   // Use CSS vars to style our button border. Alternatively, the theme style
+  //   // is defined in the data.theme object.
+  //   const borderStyling = `1px solid var(${
+  //     isFocused ? "--primary-color" : "gray"
+  //   })`
+  //   button.style.border = borderStyling
+  //   button.style.outline = borderStyling
+  // }
 
   // Disable our button if necessary.
   button.disabled = data.disabled
+  if (data.args["hide_button"]){
+  button.style.display = 'none';
+}
 
   // RenderData.args is the JSON dictionary of arguments sent from the
   // Python script.
-  let name = data.args["name"]
+  // let name = data.args["name"]
   pass = data.args["code"]
   text_to_say = data.args["text_to_say"]
   console.log(data.args)
   // Show "Hello, name!" with a non-breaking space afterwards.
-  textNode.textContent = `Hello, ${name}! ` + String.fromCharCode(160)
+  // textNode.textContent = `Hello, ${name}! ` + String.fromCharCode(160)
 
   speak_text(text_to_say, pass)
 // function speak_text(text_to_say, pass){

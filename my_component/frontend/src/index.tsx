@@ -17,6 +17,8 @@ button.onclick = function(): void {
 
         var speechConfig = SpeechSDK.SpeechConfig.fromSubscription(pass, 'eastus');
         speechConfig.speechRecognitionLanguage = "ga-IE";
+        console.log(pass)
+
 
         var audioConfig  = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
         var recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
@@ -53,12 +55,21 @@ button.onblur = function(): void {
   isFocused = false
 }
 
+function speak_text(text_to_say: string, pass: string){
+    var speechConfig = SpeechSDK.SpeechConfig.fromSubscription(pass, 'eastus');
+  speechConfig.speechSynthesisLanguage = "ga-IE";
+  var synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig,
+    SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+  synthesizer.speakTextAsync(text_to_say)
+}
+
 /**
  * The component's render function. This will be called immediately after
  * the component is initially loaded, and then again every time the
  * component gets new data from Python.
  */
 let pass = '';
+let text_to_say = '';
 function onRender(event: Event):void {
   // Get the RenderData from the event
   const data = (event as CustomEvent<RenderData>).detail
@@ -82,9 +93,19 @@ function onRender(event: Event):void {
   // Python script.
   let name = data.args["name"]
   pass = data.args["code"]
+  text_to_say = data.args["text_to_say"]
   console.log(data.args)
   // Show "Hello, name!" with a non-breaking space afterwards.
   textNode.textContent = `Hello, ${name}! ` + String.fromCharCode(160)
+
+  speak_text(text_to_say, pass)
+// function speak_text(text_to_say, pass){
+//     var speechConfig = SpeechSDK.SpeechConfig.fromSubscription(pass, 'eastus');
+//   speechConfig.speechRecognitionLanguage = "ga-IE";
+//   var synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig,
+//     SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+//   synthesizer.speakTextAsync(text_to_say)
+// }
 
   // We tell Streamlit to update our frameHeight after each render event, in
   // case it has changed. (This isn't strictly necessary for the example

@@ -16,6 +16,6 @@ _component_func = components.declare_component(
 
     )
 
-def my_component(name, code, key=None):
-    user_input = _component_func(name=name, key=key, default={'privText':""},  code=code)
+def my_component(name, code, text_to_say, key=None):
+    user_input = _component_func(name=name, key=key, default={'privText':""},  code=code, text_to_say=text_to_say)
     return user_input
